@@ -58,7 +58,7 @@ function App() {
 						Copy
 					</button>
 				</div>
-				<div className='flex  gap-x-5 '>
+				<div className='flex text-orange-600 gap-x-5 '>
 					<div className='flex items-center gap-x-1 '>
 						<input
 							type='range'
@@ -70,7 +70,12 @@ function App() {
 								setLength(e.target.value);
 							}}
 						/>
-						<label>Length:{length}</label>
+						<label className='text-white'>
+							Length:{' '}
+							<span className='text-orange-600 font-bold'>
+								{length}{' '}
+							</span>
+						</label>
 					</div>
 					<div className='flex items-center gap-x-1'>
 						<input
