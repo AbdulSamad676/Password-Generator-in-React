@@ -2,13 +2,14 @@ import { useCallback, useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+import { useRef } from 'react';
 
 function App() {
 	const [length, setLength] = useState(8);
 	const [password, setPassword] = useState('');
 	const [numberAllowed, setNumberAllowed] = useState(false);
 	const [charAllowed, setcharAllowed] = useState(false);
-
+	let passRef = useRef(null);
 	let passwordGenerator = useCallback(() => {
 		let pass = '';
 		let str = 'ABDCEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -22,9 +23,18 @@ function App() {
 		setPassword(pass);
 	}, [length, numberAllowed, charAllowed, setPassword]);
 
+	// copy to clipboard functionality
+
+	function copyToClipboard() {
+		passRef?.current.select();
+		// You can set selection Range just uncomment the next line you will get 5 charector selected
+		// passRef?.current.setSelectionRange(0, 5);
+		window.navigator.clipboard.writeText(password);
+	}
+
 	useEffect(() => {
 		passwordGenerator();
-	}, [length, numberAllowed, charAllowed, setPassword]);
+	}, [length, numberAllowed, charAllowed, passwordGenerator]);
 
 	return (
 		<>
@@ -34,13 +44,17 @@ function App() {
 			<div className='mx-auto w-full max-w-md  p-5 mt-10 rounded-xl bg-gray-800 shadow-lg'>
 				<div className='flex  items-center  p-3 rounded mb-5'>
 					<input
-						className='text-black w-full px-2 py-1 text-xl rounded w-60'
+						className='text-black w-full px-2 py-1 text-xl rounded '
 						type='text'
 						placeholder='Pasword Here'
 						value={password}
+						ref={passRef}
 						readOnly
 					/>
-					<button className=' bg-black px-2 py-2 rounded'>
+					<button
+						className=' bg-black px-2 py-2 rounded'
+						onClick={copyToClipboard}
+					>
 						Copy
 					</button>
 				</div>
